@@ -15,6 +15,8 @@
  */
 package com.examplerestclient.core;
 
+import com.examplerestclient.core.controller.FileSystemController;
+import com.examplerestclient.core.service.PersonRestService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,13 +37,20 @@ public class App {
         RestTemplate restTemplate = applicationContext.getBean("restTemplate", RestTemplate.class);
 
         Person p = new Person();
-        p.setNama("Fauzi");
-
-        List<MediaType> mediaTypes = new ArrayList<MediaType>();
-        mediaTypes.add(MediaType.APPLICATION_JSON);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(mediaTypes);
-        HttpEntity<Person> httpEntity = new HttpEntity<Person>(p, headers);
-        restTemplate.exchange("http://localhost/rest-server-sample-php/index.php/person/save", HttpMethod.POST, httpEntity, Map.class);
+        p.setNama("Ari");
+//
+//        List<MediaType> mediaTypes = new ArrayList<MediaType>();
+//        mediaTypes.add(MediaType.APPLICATION_JSON);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setAccept(mediaTypes);
+//        HttpEntity<Person> httpEntity = new HttpEntity<Person>(p, headers);
+//        restTemplate.exchange("http://localhost/rest-server-sample-php/index.php/person/save", HttpMethod.POST, httpEntity, Map.class);
+        
+        PersonRestService personRestService=new PersonRestService(restTemplate, new FileSystemController());
+        
+        Map<String,Object> respon=personRestService.save(p);
+        Person person=(Person) respon.get("data");
+        System.out.println(person.getNama());
+        
     }
 }
