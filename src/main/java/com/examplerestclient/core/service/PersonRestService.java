@@ -38,7 +38,7 @@ public class PersonRestService extends RestService {
      */
     public Map<String, Object> save(Person Person) throws RestClientException {
         HttpEntity<Person> httpEntity = new HttpEntity<Person>(Person, headers);
-        Map<String, Object> response = save("/person/save", httpEntity);
+        Map<String, Object> response = save("/person_c/person", httpEntity);
         if (response.containsKey("data")) {
             response.put("data", ConvertJackson.convertMapToPerson((LinkedHashMap) response.get("data")));
         }
@@ -53,9 +53,9 @@ public class PersonRestService extends RestService {
      */
     public Map<String, Object> update(Person Person) throws RestClientException {
         HttpEntity<Person> httpEntity = new HttpEntity<Person>(Person, headers);
-        Map<String, Object> response = update("/Person", httpEntity);
+        Map<String, Object> response = save("/person_c/person_update", httpEntity);
         if (response.containsKey("data")) {
-           // response.put("data", ConvertJackson.convertMapToPerson((LinkedHashMap) response.get("data")));
+            response.put("data", ConvertJackson.convertMapToPerson((LinkedHashMap) response.get("data")));
 
         }
         return response;
@@ -68,9 +68,13 @@ public class PersonRestService extends RestService {
      * @throws RestClientException 
      */
     public Map<String, Object> delete(Person Person) throws RestClientException {
-        Map<String, Object> uriVariables = new HashMap<String, Object>();
-       // uriVariables.put("id", Person.getId());
-        return delete("/Person?id={id}", new HttpEntity<Person>(null, headers), uriVariables);
+       HttpEntity<Person> httpEntity = new HttpEntity<Person>(Person, headers);
+        Map<String, Object> response = save("/person_c/person_delete", httpEntity);
+        if (response.containsKey("data")) {
+            response.put("data", ConvertJackson.convertMapToPerson((LinkedHashMap) response.get("data")));
+
+        }
+        return response;
     }
 
     /**
@@ -83,6 +87,16 @@ public class PersonRestService extends RestService {
         return deleteMore("/Person", new HttpEntity<List<Person>>(Persons, headers));
     }
 
+     /**
+     * Cari semua bank
+     * @return
+     * @throws RestClientException 
+     */
+    public List<Person> findPersons() throws RestClientException {
+        List<LinkedHashMap> personsLinkedHashMap = (List<LinkedHashMap>) find("/person_c/person", new HttpEntity<Person>(null, headers));
+        List<Person> persons= ConvertJackson.convertMapToPersons(personsLinkedHashMap);
+        return persons;
+    }
    
 
     /**

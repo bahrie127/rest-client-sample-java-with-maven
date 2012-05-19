@@ -37,7 +37,8 @@ public class App {
         RestTemplate restTemplate = applicationContext.getBean("restTemplate", RestTemplate.class);
 
         Person p = new Person();
-        p.setNama("Ari");
+        p.setId(3L);
+        p.setNama("hamdani");
 //
 //        List<MediaType> mediaTypes = new ArrayList<MediaType>();
 //        mediaTypes.add(MediaType.APPLICATION_JSON);
@@ -48,9 +49,17 @@ public class App {
         
         PersonRestService personRestService=new PersonRestService(restTemplate, new FileSystemController());
         
-        Map<String,Object> respon=personRestService.save(p);
-        Person person=(Person) respon.get("data");
-        System.out.println(person.getNama());
+//        Map<String,Object> respon=personRestService.save(p);
+//        Person person=(Person) respon.get("data");
+//        System.out.println(person.getNama());
+//
+//        Map<String,Object> respon=personRestService.delete(p);
+//        System.out.println(respon);
+        
+        List<Person> persons=personRestService.findPersons();
+        for(Person person:persons){
+            System.out.println(person.getId()+" "+person.getNama());
+        }
         
     }
 }
