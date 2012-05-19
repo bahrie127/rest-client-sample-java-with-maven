@@ -26,6 +26,8 @@ public class RestService {
 //    public final static String PATTERN_SERVER_URL = "http://localhost:8084/mgm/";
     //   public final static String PATTERN_SERVER_URL = "http://180.235.150.97:8080/mgm/";
     public final static String PATTERN_SERVER_URL = "http://host";
+    static final String username = "admin";
+    static final String password = "1234";
     protected RestTemplate restTemplate;
     protected HttpHeaders headers;
     protected FileSystemController fileSystemController;
@@ -33,6 +35,8 @@ public class RestService {
     public RestService(RestTemplate restTemplate, FileSystemController fileSystemController) {
         this.restTemplate = restTemplate;
         this.fileSystemController = fileSystemController;
+
+
         initDefaultHeaders();
     }
 
@@ -294,7 +298,7 @@ public class RestService {
 
     protected String getServerURL() {
         String url = PATTERN_SERVER_URL.replaceAll("host", fileSystemController.readServer().getProperty(FileSystemController.KEY_HOST));
-       // url = url.replaceAll("port", fileSystemController.readServer().getProperty(FileSystemController.KEY_PORT));
+        // url = url.replaceAll("port", fileSystemController.readServer().getProperty(FileSystemController.KEY_PORT));
         return url;
     }
 }

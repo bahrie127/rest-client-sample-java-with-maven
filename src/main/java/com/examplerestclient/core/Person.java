@@ -8,7 +8,7 @@ package com.examplerestclient.core;
  *
  * @author bahrie
  */
-public class Person {
+public class Person{
     private Long id;
     private String nama;
 
